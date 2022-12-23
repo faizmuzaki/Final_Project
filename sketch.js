@@ -42,3 +42,55 @@ class Map{
   }
 
 }
+
+class Entity {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.width = 24
+    this.height = 24;
+    this.pos = createVector(this.x, this.y);
+    this.r = (this.width+this.height)/2;
+    this.speed = 3;
+  }
+  
+  attack(xdir, ydir) {
+    this.pos.x += xdir * this.speed;  
+    this.pos.y += ydir * this.speed;
+  }
+  
+  moveLeft(){
+    if (this.pos.x-this.speed<40)
+      this.pos.x=40;
+    else
+      this.pos.x-=this.speed;
+      started = true;
+  }
+
+  moveRight(){
+    if (this.pos.x+this.speed>w-25+25-43)
+      this.pos.x=w-25+25-43;
+    else
+      this.pos.x+=this.speed;
+      started = true;
+
+  }
+
+  moveUp(){
+    if (this.pos.y-this.speed<25+125)
+      this.pos.y=25+125;
+    else
+      this.pos.y-=this.speed;
+      started = true;
+  }
+
+  moveDown(){
+    if (this.pos.y+this.speed>h-25-17)
+      this.pos.y=h-25-17;
+    else
+      this.pos.y+=this.speed;
+      started = true;
+
+  }
+
+}
