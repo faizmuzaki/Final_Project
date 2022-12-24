@@ -118,3 +118,51 @@ class Hero extends Entity{
     // })
   }
 }
+
+class Monster extends Entity {
+  constructor(x, y) {
+    super();
+    this.pos = createVector(x, y);
+    this.r = 25;
+    this.color = 128;
+    this.type = circle;
+    this.effect;
+    this.life;
+  }
+  
+  collision(hero) {
+    return hero.pos.dist(this.pos) < hero.r + this.r;
+  }
+  
+  init() {
+    noStroke();
+    fill(this.color);
+    this.type(this.pos.x, this.pos.y, this.r);
+  }
+  moveRandom(){
+    monster.pos.set(random(25, width-26), random(135, height-26));
+    maxTime -= 6;
+    timer = maxTime;
+  }
+  saveScore(){
+    //   fs.writeFile('Output.txt', score, (err) => {
+    //     if (err) throw err;
+    // })
+  }
+}
+
+
+function gameOver(){
+  noStroke();
+  textAlign(CENTER, CENTER);
+  textSize(35);
+  fill(0);
+  text("Game Over!", width/2, height/2+45);
+  noLoop();
+  sleep(3000).then(() => {  
+      window.location.reload();
+  }); 
+  }
+   function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+   }
