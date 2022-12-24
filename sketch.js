@@ -42,21 +42,19 @@ class Map{
   }
 
 }
-
 class Entity {
   constructor(x, y) {
     this.x = x;
     this.y = y;
     this.width = 24
     this.height = 24;
+    this.speed = 4;
     this.pos = createVector(this.x, this.y);
     this.r = (this.width+this.height)/2;
-    this.speed = 3;
   }
   
-  attack(xdir, ydir) {
-    this.pos.x += xdir * this.speed;  
-    this.pos.y += ydir * this.speed;
+  attack() {
+
   }
   
   moveLeft(){
@@ -73,7 +71,6 @@ class Entity {
     else
       this.pos.x+=this.speed;
       started = true;
-
   }
 
   moveUp(){
@@ -92,5 +89,32 @@ class Entity {
       started = true;
 
   }
+}
 
+class Hero extends Entity{
+  constructor(x, y) {
+    super(x,y);
+    this.life;
+    this.score;
+  }
+
+  init() {
+    noStroke();
+    fill(0);
+    circle(this.pos.x, this.pos.y, this.r*2);
+  }
+  increaseScore(){
+    score++;
+  }
+  calculateLife(){
+    if(monster.collision(hero)) {
+      monster.moveRandom();
+      hero.increaseScore();
+    }
+  }
+  saveScore(){
+    //   fs.writeFile('Output.txt', score, (err) => {
+    //     if (err) throw err;
+    // })
+  }
 }
