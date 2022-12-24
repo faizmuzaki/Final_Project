@@ -19,27 +19,53 @@ function setup() {
   maxTime = level.getCurrentLevel();
   timer = maxTime;
 }
-function draw() {
-  background('white');
-  fill(51);
-  map.atas();
-  map.bawah();
-  map.kanan();
-  map.kiri();
+
+function mousePressed() {
+  for (const btn of btns) {
+    if (score >= round(btn.price) && btn.collision(mouseX, mouseY)) {
+      btn.action();
+      score -= round(btn.price);
+      btn.price *= 1.08;
+    }
+  }
 }
 
-class Level{
-  constructor(l) {
-    this.currentLevel = l;
-    this.latestLevel;
-    this.maxLevel;
-  }
+function draw() {
+  background(255);
+  fill(51);
 
-  setLevel(){
-    return this.latestLevel;
+  map.init();
+
+  if (keyIsPressed === true) {
+    if (keyCode === UP_ARROW) {
+      hero.moveUp();
+    }else if (keyCode === DOWN_ARROW) {
+        hero.moveDown();
+    }else if (keyCode === LEFT_ARROW) {
+        hero.moveLeft();
+    }else if (keyCode === RIGHT_ARROW) {
+        hero.moveRight();
+    }
   }
-  getCurrentLevel(){
-    return this.currentLevel;
+  hero.calculateLife();
+  hero.init();
+  monster.init();
+  textAlign(LEFT, TOP);
+  textSize(17);
+  noStroke();
+  fill(0);
+  text("score :" , 24, 85)
+  text(score, 80, 85);
+  fill(0);
+  rect(270, 85, timer * 100 / maxTime, 18);
+  for (const btn of btns) {
+    btn.init();
+  }
+  if (started) {
+    timer--;
+  }
+  if (timer <= 0) {
+    gameOver();
   }
 }
 
@@ -71,8 +97,34 @@ class Map{
       rect(i,381,1,19);
     }
   }
+  init(){
+    this.atas();
+    this.kiri();
+    this.kanan();
+    this.bawah();
+  }
+  move(){
+
+  }
 
 }
+
+
+class Level{
+  constructor(l) {
+    this.currentLevel = l;
+    this.latestLevel;
+    this.maxLevel;
+  }
+
+  setLevel(){
+    return this.latestLevel;
+  }
+  getCurrentLevel(){
+    return this.currentLevel;
+  }
+}
+
 class Entity {
   constructor(x, y) {
     this.x = x;
@@ -194,6 +246,7 @@ function gameOver(){
       window.location.reload();
   }); 
   }
-   function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-   }
+   
+function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+}
