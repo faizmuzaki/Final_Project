@@ -1,8 +1,23 @@
+let hero;
+let monster;
+let map;
+let level;
+let score = 0;
+let maxTime;
+let timer;
+let btns = [];
+let started = false;
 var w = 400;
 var h = 400;
+
 function setup() {
   createCanvas(w, h);
+  level = new Level(180);
+  hero = new Hero(width/2, height/2);
+  monster = new Monster(random(25, width-25), random(135, height-25));
   map = new Map(407,407);
+  maxTime = level.getCurrentLevel();
+  timer = maxTime;
 }
 function draw() {
   background('white');
@@ -12,6 +27,22 @@ function draw() {
   map.kanan();
   map.kiri();
 }
+
+class Level{
+  constructor(l) {
+    this.currentLevel = l;
+    this.latestLevel;
+    this.maxLevel;
+  }
+
+  setLevel(){
+    return this.latestLevel;
+  }
+  getCurrentLevel(){
+    return this.currentLevel;
+  }
+}
+
 class Map{
   constructor(width,height){
     this.width = width;
